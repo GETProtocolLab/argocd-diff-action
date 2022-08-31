@@ -36,7 +36,7 @@ runs:
         username: ${{ inputs.github-user }}
         password: ${{ inputs.github-password }}
     - name: Install argocd-lovely-plugin
-      run: mkdir -p $HOME/bin/argo/custom-tools && chmod 777 $HOME/bin/argo/custom-tools && docker run -v $HOME/bin/argo/custom-tools:/custom-tools ghcr.io/getprotocollab/argocd-lovely-plugin:latest && chmod 755 $HOME/bin/argo/custom-tools/argocd-lovely-plugin
+      run: mkdir -p $HOME/bin/argo/custom-tools && chmod 777 $HOME/bin/argo/custom-tools && docker run -v $HOME/bin/argo/custom-tools:/custom-tools ghcr.io/getprotocollab/argocd-lovely-plugin:latest && ls -la $HOME/bin/argo/custom-tools/argocd-lovely-plugin
       shell: bash
     - uses: actions/setup-node@v2
       with:
