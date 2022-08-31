@@ -99,10 +99,8 @@ async function getApps(): Promise<App[]> {
   }
 
   return (responseJson.items as App[]).filter(app => {
-    return (
-      app.spec.source.repoURL.includes(
-        `${github.context.repo.owner}/${github.context.repo.repo}`
-      )
+    return app.spec.source.repoURL.includes(
+      `${github.context.repo.owner}/${github.context.repo.repo}`
     );
   });
 }

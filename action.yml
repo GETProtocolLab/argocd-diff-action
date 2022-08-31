@@ -19,6 +19,28 @@ inputs:
     description: Extra arguments to pass to the argocd CLI
     default: --grpc-web
     required: false
+  github-user:
+    description: "Registry's user"
+    required: false
+    default: ${{ github.actor }}
+  github-password:
+    description: "Registry user's password or token"
+    required: true
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: 'composite'
+  steps:
+    - name: Log in to Github Registry
+      uses: docker/login-action@v1.10.0
+      with:
+        registry: ghcr.io
+        username: ${{ inputs.github-user }}
+        password: ${{ inputs.github-password }}
+    - name: Install argocd-lovely-plugin
+      run: docker run -v `pwd`/bin/argo/custom-tools:/custom-tools ghcr.io/getprotocollab/argocd-lovely-plugin:latest
+      shell: bash
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+    - name: Run ArgoCD diff
+      run: PATH=`pwd`/bin/argo/custom-tools:$PATH node dist/index.js
+      shell: bash
