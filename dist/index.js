@@ -1698,6 +1698,7 @@ const ARGOCD_SERVER_URL = core.getInput('argocd-server-url');
 const ARGOCD_TOKEN = core.getInput('argocd-token');
 const VERSION = core.getInput('argocd-version');
 const EXTRA_CLI_ARGS = core.getInput('argocd-extra-cli-args');
+const GITHUB_PASSWORD = core.getInput('github-password');
 const octokit = github.getOctokit(githubToken);
 function execCommand(command, options = {}) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -1739,7 +1740,7 @@ function setupArgoCDCommand() {
         const asset = argocdLovelyPluginRelease.data.assets.find(obj => {
             return re.test(obj.name);
         });
-        const pluginArchivePath = yield tc.downloadTool(asset.url, undefined, `token ${githubToken}`, {
+        const pluginArchivePath = yield tc.downloadTool(asset.url, undefined, `token ${GITHUB_PASSWORD}`, {
             accept: 'application/octet-stream'
         });
         const pluginExtractedFolder = yield tc.extractTar(pluginArchivePath, 'bin/argocd-lovely-plugin');
