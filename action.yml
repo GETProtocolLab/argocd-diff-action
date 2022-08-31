@@ -23,9 +23,6 @@ inputs:
     description: "Registry's user"
     required: false
     default: ${{ github.actor }}
-  github-password:
-    description: "Registry user's password or token"
-    required: true
 runs:
   using: 'composite'
   steps:
@@ -34,7 +31,7 @@ runs:
       with:
         registry: ghcr.io
         username: ${{ inputs.github-user }}
-        password: ${{ inputs.github-password }}
+        password: ${{ inputs.github-token }}
     - name: Install argocd-lovely-plugin
       run: docker run -v `pwd`/bin/argo/custom-tools:/custom-tools ghcr.io/getprotocollab/argocd-lovely-plugin:latest
       shell: bash
