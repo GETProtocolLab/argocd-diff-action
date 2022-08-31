@@ -42,5 +42,5 @@ runs:
       with:
         node-version: 14.x
     - name: Run ArgoCD diff
-      run: PATH=$HOME/bin/argo/custom-tools:$PATH node dist/index.js
+      run: PATH=$HOME/bin/argo/custom-tools:$PATH node ${{ github.action_path }}/dist/index.js
       shell: bash
