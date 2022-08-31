@@ -75,7 +75,23 @@ async function setupArgoCDCommand(): Promise<(params: string) => Promise<ExecRes
   );
   fs.chmodSync(path.join(argoBinaryPath), '755');
 
-  // core.addPath(argoBinaryPath);
+  const argocdLovelyPluginRelease = await octokit.rest.repos.getLatestRelease({
+    owner: 'GETProtocolLab',
+    repo: 'argocd-lovely-plugin'
+  });
+  const re = new RegExp(`.*-linux-amd64.tar.gz`);
+
+  const asset = argocdLovelyPluginRelease.data.assets.find(obj => {
+    return re.test(obj.name);
+  });
+
+  const pluginArchivePath = await tc.downloadTool(asset!.url, undefined, `token ${githubToken}`, {
+    accept: 'application/octet-stream'
+  });
+
+  const pluginExtractedFolder = await tc.extractTar(pluginArchivePath, 'bin/argocd-lovely-plugin');
+
+  core.addPath(pluginExtractedFolder);
 
   return async (params: string) =>
     execCommand(

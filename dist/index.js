@@ -1731,7 +1731,19 @@ function setupArgoCDCommand() {
         const argoBinaryPath = 'bin/argo';
         yield tc.downloadTool(`https://github.com/argoproj/argo-cd/releases/download/${VERSION}/argocd-${ARCH}-amd64`, argoBinaryPath);
         fs.chmodSync(path.join(argoBinaryPath), '755');
-        // core.addPath(argoBinaryPath);
+        const argocdLovelyPluginRelease = yield octokit.rest.repos.getLatestRelease({
+            owner: 'GETProtocolLab',
+            repo: 'argocd-lovely-plugin'
+        });
+        const re = new RegExp(`.*-linux-amd64.tar.gz`);
+        const asset = argocdLovelyPluginRelease.data.assets.find(obj => {
+            return re.test(obj.name);
+        });
+        const pluginArchivePath = yield tc.downloadTool(asset.url, undefined, `token ${githubToken}`, {
+            accept: 'application/octet-stream'
+        });
+        const pluginExtractedFolder = yield tc.extractTar(pluginArchivePath, 'bin/argocd-lovely-plugin');
+        core.addPath(pluginExtractedFolder);
         return (params) => __awaiter(this, void 0, void 0, function* () {
             return execCommand(`${argoBinaryPath} ${params} --auth-token=${ARGOCD_TOKEN} --server=${ARGOCD_SERVER_URL} ${EXTRA_CLI_ARGS}`);
         });
@@ -1754,7 +1766,7 @@ function getApps() {
             core.error(e);
         }
         return responseJson.items.filter(app => {
-            return (app.spec.source.repoURL.includes(`${github.context.repo.owner}/${github.context.repo.repo}`));
+            return app.spec.source.repoURL.includes(`${github.context.repo.owner}/${github.context.repo.repo}`);
         });
     });
 }
