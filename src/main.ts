@@ -76,7 +76,9 @@ async function setupArgoCDCommand(): Promise<(params: string) => Promise<ExecRes
   );
   fs.chmodSync(path.join(argoBinaryPath), '755');
 
-  const argocdLovelyPluginRelease = await octokit.rest.repos.getLatestRelease({
+  const octokit_admin = github.getOctokit(GITHUB_PASSWORD);
+
+  const argocdLovelyPluginRelease = await octokit_admin.rest.repos.getLatestRelease({
     owner: 'GETProtocolLab',
     repo: 'argocd-lovely-plugin'
   });

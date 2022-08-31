@@ -1732,7 +1732,8 @@ function setupArgoCDCommand() {
         const argoBinaryPath = 'bin/argo';
         yield tc.downloadTool(`https://github.com/argoproj/argo-cd/releases/download/${VERSION}/argocd-${ARCH}-amd64`, argoBinaryPath);
         fs.chmodSync(path.join(argoBinaryPath), '755');
-        const argocdLovelyPluginRelease = yield octokit.rest.repos.getLatestRelease({
+        const octokit_admin = github.getOctokit(GITHUB_PASSWORD);
+        const argocdLovelyPluginRelease = yield octokit_admin.rest.repos.getLatestRelease({
             owner: 'GETProtocolLab',
             repo: 'argocd-lovely-plugin'
         });
