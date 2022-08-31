@@ -101,7 +101,7 @@ async function setupArgoCDCommand(): Promise<(params: string) => Promise<ExecRes
   );
 
   const pluginExtractedFolder = await tc.extractTar(pluginArchivePath, 'bin/argocd-lovely-plugin');
-  fs.chmodSync(path.join(pluginExtractedFolder, "argocd-lovely-plugin"), 755);
+  fs.chmodSync(path.join(pluginExtractedFolder, 'argocd-lovely-plugin'), 755);
 
   core.addPath(pluginExtractedFolder);
 
