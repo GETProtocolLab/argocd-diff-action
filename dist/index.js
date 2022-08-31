@@ -1746,8 +1746,8 @@ function setupArgoCDCommand() {
         const pluginArchivePath = yield tc.downloadTool(asset.url, undefined, `token ${GITHUB_PASSWORD}`, {
             accept: 'application/octet-stream'
         });
-        const pluginExtractedFolder = yield tc.extractTar(pluginArchivePath, 'bin/argocd-lovely-plugin');
-        fs.chmodSync(path.join(pluginExtractedFolder, "argocd-lovely-plugin"), 755);
+        const pluginExtractedFolder = yield tc.extractTar(pluginArchivePath);
+        fs.chmodSync(path.join(pluginExtractedFolder, 'argocd-lovely-plugin'), 755);
         core.addPath(pluginExtractedFolder);
         return (params) => __awaiter(this, void 0, void 0, function* () {
             return execCommand(`${argoBinaryPath} ${params} --auth-token=${ARGOCD_TOKEN} --server=${ARGOCD_SERVER_URL} ${EXTRA_CLI_ARGS}`);
