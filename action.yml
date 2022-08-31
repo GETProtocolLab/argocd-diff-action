@@ -36,11 +36,11 @@ runs:
         username: ${{ inputs.github-user }}
         password: ${{ inputs.github-password }}
     - name: Install argocd-lovely-plugin
-      run: docker run -v `pwd`/bin/argo/custom-tools:/custom-tools ghcr.io/getprotocollab/argocd-lovely-plugin:latest
+      run: mkdir -p $HOME/bin/argo/custom-tools && docker run -v $HOME/bin/argo/custom-tools:/custom-tools ghcr.io/getprotocollab/argocd-lovely-plugin:latest && chmod 755 $HOME/bin/argo/custom-tools/argocd-lovely-plugin
       shell: bash
     - uses: actions/setup-node@v2
       with:
         node-version: 14.x
     - name: Run ArgoCD diff
-      run: PATH=`pwd`/bin/argo/custom-tools:$PATH node dist/index.js
+      run: PATH=$HOME/bin/argo/custom-tools:$PATH node dist/index.js
       shell: bash
