@@ -1733,10 +1733,12 @@ function setupArgoCDCommand() {
         yield tc.downloadTool(`https://github.com/argoproj/argo-cd/releases/download/${VERSION}/argocd-${ARCH}-amd64`, argoBinaryPath);
         fs.chmodSync(path.join(argoBinaryPath), '755');
         const octokit_admin = github.getOctokit(GITHUB_PASSWORD);
+        core.info("Fetching argocd-lovely-plugin releases");
         const argocdLovelyPluginRelease = yield octokit_admin.rest.repos.getLatestRelease({
-            owner: 'GETProtocolLab',
+            owner: 'getprotocollab',
             repo: 'argocd-lovely-plugin'
         });
+        core.info(`Found release: ${argocdLovelyPluginRelease.data.name}`);
         const re = new RegExp(`.*-linux-amd64.tar.gz`);
         const asset = argocdLovelyPluginRelease.data.assets.find(obj => {
             return re.test(obj.name);
