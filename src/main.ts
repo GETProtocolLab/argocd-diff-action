@@ -187,7 +187,7 @@ ${diff}
 ## ArgoCD Diff for commit [\`${shortCommitSha}\`](${commitLink})
 ${ARGOCD_SERVER_URL}
 
-_Updated at ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} PT_
+_Updated at ${new Date().toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' })} CET_
   ${diffOutput.join('\n')}
 
 | Legend | Status |
