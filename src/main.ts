@@ -185,6 +185,8 @@ ${diff}
 
   const output = scrubSecrets(`
 ## ArgoCD Diff for commit [\`${shortCommitSha}\`](${commitLink})
+${ARGOCD_SERVER_URL}
+
 _Updated at ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} PT_
   ${diffOutput.join('\n')}
 
@@ -201,7 +203,7 @@ _Updated at ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angele
     repo
   });
 
-  const existingComment = commentsResponse.data.find(d => d.body!.includes('ArgoCD Diff for'));
+  const existingComment = commentsResponse.data.find(d => d.body!.includes(ARGOCD_SERVER_URL));
 
   // Existing comments should be updated even if there are no changes this round in order to indicate that
   if (existingComment) {
