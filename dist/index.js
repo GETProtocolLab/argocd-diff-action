@@ -1815,7 +1815,9 @@ ${diff}
 `);
         const output = scrubSecrets(`
 ## ArgoCD Diff for commit [\`${shortCommitSha}\`](${commitLink})
-_Updated at ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} PT_
+${ARGOCD_SERVER_URL}
+
+_Updated at ${new Date().toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' })} CET_
   ${diffOutput.join('\n')}
 
 | Legend | Status |
@@ -1829,7 +1831,7 @@ _Updated at ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angele
             owner,
             repo
         });
-        const existingComment = commentsResponse.data.find(d => d.body.includes('ArgoCD Diff for'));
+        const existingComment = commentsResponse.data.find(d => d.body.includes(ARGOCD_SERVER_URL));
         // Existing comments should be updated even if there are no changes this round in order to indicate that
         if (existingComment) {
             octokit.rest.issues.updateComment({
