@@ -1815,7 +1815,7 @@ ${diff}
 `);
         const output = scrubSecrets(`
 ## ArgoCD Diff for commit [\`${shortCommitSha}\`](${commitLink})
-${ARGOCD_SERVER_URL}
+### Cluster: [${ARGOCD_SERVER_URL}](https://${ARGOCD_SERVER_URL})
 
 _Updated at ${new Date().toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' })} CET_
   ${diffOutput.join('\n')}
